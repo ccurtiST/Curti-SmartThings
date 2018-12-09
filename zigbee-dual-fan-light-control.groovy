@@ -175,7 +175,41 @@ tiles(scale: 2) {
 
 def parse(String description) {
    log.debug "description is $description"
-   def event = zigbee.getEvent(description)
+   def event = zigbee.getEvent(description) //should map switch and level events
+	if (event) {
+	   log.debug "lighting event detected fan"
+		if (event.name=="level" && event.value==0) {} //avoid redundant reports
+		else sendEvent(event)
+	} else {
+		def map = [:]
+		def descMap = zigbee.parseDescriptionAsMap(description)
+		if (descMap){
+		   if (description?.startsWith('read attr -')){
+			if (descMap.clusterInt == 0x0202 && descMap.commandInt == 0x0000){
+				map.name = "fanSpeed"
+				map.value = descMap.value
+				log.debug "parse returned ${map}"
+				return createEvent(map)
+			}
+		   }
+		   else if (descMap.clusterInt == 0x0006 && descMap.commandInt == 0x07){
+				log.debug "ON/OFF REPORTING CONFIG RESPONSE: " + cluster
+				sendEvent(name: "checkInterval", value: 60 * 12, displayed: false, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
+			} 
+		       
+		   else {
+				log.warn "ON/OFF REPORTING CONFIG FAILED- error code:${cluster.data[0]}"
+			}
+		     }
+		}
+		
+			
+			
+			} else {
+				log.warn "ON/OFF REPORTING CONFIG FAILED- error code:${cluster.data[0]}"
+			}
+		
+	}
    
  }
 
