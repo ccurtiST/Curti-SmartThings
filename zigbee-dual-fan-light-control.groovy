@@ -141,7 +141,7 @@ Capability ref for Fan Speed
     capability "Fan Speed"
     
     command "setFanSpeed", [number]
-    command "turnOnBREEZE"
+    command "turnOnBreeze"
     
     
     attribute "fanSpeed", "number"
@@ -165,6 +165,16 @@ tiles(scale: 2) {
 				attributeState "level", action:"switch level.setLevel"
 			}
 		}
+	        controlTile ("fanSpeedSlider", "device.fanSpeed", "slider", label: "Fan Speed", height:2, width:2, inactiveLabel: true, range:"(0..4)"){
+                        state "fanSpeedControl", action: "setFanSpeed"  
+                }
+	        standardTile("breeze", "device.button", width: 2, height: 2, decoration: "flat") {
+		        state "default", icon: "http://gdurl.com/fl9r", backgroundColor: "#ffffff", action: "turnOnBreeze"
+	        } 
+	        valueTile("fanSpeedDisplay", "device.fanSpeed", decoration: "flat", width: 2, height: 2) {
+                        state "fanSpeedDisplay", label: getFanSpeedString(currentValue)
+                }
+	
 		standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 		}
@@ -212,6 +222,33 @@ def parse(String description) {
    
  }
 
+getFanSpeedString(speed){
+	def fanSpeedString = ""
+	switch (value){
+	 	case 0:
+    		log.debug "Send Command to turn Fan off"
+                break 
+           	
+    	case 2:
+    		log.debug "Send Command to turn Fan to Med"
+        	sendFanSpeedCommand("02")
+        	//zigbee.command(0x0202, 0x02)
+       	    break
+    	case 3:
+    		log.debug "Send Command to turn Fan to Med High"
+        	sendFanSpeedCommand("03")
+        	//zigbee.command(0x0202, 0x03)
+        	break
+    	case 4:
+    		log.debug "Send Command to turn Fan to High"
+        	sendFanSpeedCommand("04")
+        	//zigbee.command(0x0202, 0x04)
+        	break
+    	default:
+    		log.debug "Value of Slider Not Recognized"
+        }
+
+}
 def on(){
    zigbee.on()	
 }
@@ -223,7 +260,7 @@ def off(){
 def setLevel(value) {
    zigbee.setLevel(value)
 }
-
+l
 def setFanSpeed(speed){
    log.debug "Set Fan Speed to ${speed}"
    zigbee.writeAttribute(0x0202, 0x00, DataType.ENUM8, "${speed}")
