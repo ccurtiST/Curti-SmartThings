@@ -141,6 +141,7 @@ Capability ref for Fan Speed
     capability "Fan Speed"
     
     command "setFanSpeed", [number]
+    command "turnOnBREEZE"
     
     
     attribute "fanSpeed", "number"
@@ -151,3 +152,59 @@ Capability ref for Fan Speed
     
     fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
   }
+
+tiles(scale: 2) {
+		multiAttributeTile(name:"light", type: "lighting", width: 6, height: 4, canChangeIcon: true){
+			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
+				attributeState "on", label:'${name}', action:"switch.off", icon:"st.switches.light.on", backgroundColor:"#00A0DC", nextState:"turningOff"
+				attributeState "off", label:'${name}', action:"switch.on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
+				attributeState "turningOn", label:'${name}', action:"switch.off", icon:"st.switches.light.on", backgroundColor:"#00A0DC", nextState:"turningOff"
+				attributeState "turningOff", label:'${name}', action:"switch.on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
+			}
+			tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+				attributeState "level", action:"switch level.setLevel"
+			}
+		}
+		standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+			state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
+		}
+		main "switch"
+		details(["switch", "refresh"])
+	}
+}
+
+def parse(String description) {
+
+}
+
+def on(){
+   zigbee.on()	
+}
+
+def off(){
+   zigbee.off()
+}
+
+def setLevel(value) {
+   zigbee.setLevel(value)
+}
+
+def setFanSpeed(speed){
+   log.debug "Set Fan Speed to ${speed}"
+   zigbee.writeAttribute(0x0202, 0x00, DataType.ENUM8, "${speed}")
+}
+
+def turnOnBreeze(){
+   log.debug "Breeze Button Pressed"
+   setFanSpeed(06)
+}
+
+def configure() {
+       zigbee.configureReporting(0x0006, 0x0000, 0x10, 0, 600, null)
+       zigbee.configureReporting(0x0008, 0x0000, 0x20, 1, 600, 0x01)
+       zigbee.configureReporting(0x0202, 0x0000, 0x30, 0, 600, null)
+}
+
+def refresh() {
+   zigbee.onOffRefresh() + zigbee.levelRefresh() + zigbee.readAttribute(0x0202, 0x0000)
+}
