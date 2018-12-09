@@ -223,29 +223,34 @@ def parse(String description) {
  }
 
 getFanSpeedString(speed){
-	def fanSpeedString = ""
+	
 	switch (value){
-	 	case 0:
-    		log.debug "Send Command to turn Fan off"
+	 case 0:
+    		return "OFF"
                 break 
            	
-    	case 2:
-    		log.debug "Send Command to turn Fan to Med"
-        	sendFanSpeedCommand("02")
-        	//zigbee.command(0x0202, 0x02)
-       	    break
-    	case 3:
-    		log.debug "Send Command to turn Fan to Med High"
-        	sendFanSpeedCommand("03")
-        	//zigbee.command(0x0202, 0x03)
-        	break
-    	case 4:
-    		log.debug "Send Command to turn Fan to High"
-        	sendFanSpeedCommand("04")
-        	//zigbee.command(0x0202, 0x04)
-        	break
-    	default:
-    		log.debug "Value of Slider Not Recognized"
+    	 case 1:
+    		return "LOW"
+                break 
+    	 case 2:
+    		return "MED"
+                break 
+    	 case 3:
+    		return "MED HIGH"
+                break 
+	 case 4:
+    		return "HIGH"
+                break 
+	 case 5:
+    		return "OFF"
+                break 
+	 case 6:
+    		return "BREEZE"
+                break 
+    	
+    	 default:
+		 log.debug "Value of Slider Not Recognized"
+		return "UNKNOWN"
         }
 
 }
