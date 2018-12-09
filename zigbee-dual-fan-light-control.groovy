@@ -90,7 +90,42 @@ Capability ref for Fan Speed
         breeze:   06
         
         zigbee.writeAttribute(0x0202, 0x00, DataType.ENUM8, "${payload}")
+	
+	
  ########################################
+ CONFIGURE
+   
+   zigbee.configureReporting(Cluster, attributeID, dataType, minReportTime, maxReportTime, reportableChange, additionalParams)
+   
+   Cluster: The Cluster ID of the requested report
+   attributeId: The attribute ID for the requested report
+   dataType: The two byte ZigBee type value for the requested report (see DataType)
+   minReportTime: Minimum number of seconds between reports
+   maxReportTime: Maximum number of seconds between reports
+   reportableChange (optional): Amount of change needed to trigger a report. Required for analog data types. Discrete data types should always provide null for this value.
+   additionalParams: An optional map to specify additional parameters. See additionalParams for supported attributes.
+ 
+   discrete example for switch
+       zigbee.configureReporting(0x0006, 0x0000, 0x10, 0, 600, null)
+   analog example for level 
+       zigbee.configureReporting(0x0008, 0x0000, 0x20, 1, 3600, 0x01)
+   would use this for fanSPEED
+       zigbee.configureReporting(0x0202, 0x0000, 0x30, 0, 600, null)
+       
+   for refresh of values
+   readAttribute(0x0006, 0x0000) //switch
+   readAttribute(0x0008, 0x0000) //level
+   readAttribute(0x0202, 0x0000) //fanSPEED
+   
+   
+   
+       
+   
+       
+
+ 
+ 
+ 
  
    */
 
