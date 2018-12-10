@@ -1,2 +1,2 @@
 # Curti-SmartThings
-SmartThings Custom DTH s
+SmartThings Custom DTHs
