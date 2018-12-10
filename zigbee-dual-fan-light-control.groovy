@@ -220,7 +220,7 @@ def parse(String description) {
 		}
 	}
    }
-}
+
 def getFanSpeedList(){
 	[ "OFF", "LOW", "MED-HIGH", "HIGH", "OFF", "BREEZE"]
 }
