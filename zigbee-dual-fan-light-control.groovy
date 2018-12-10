@@ -221,8 +221,22 @@ def parse(String description) {
 	}
    
  }
-
-getFanSpeedString(speed){
+def getFanSpeedList(){
+	[ "OFF", "LOW", "MED-HIGH", "HIGH", "OFF", "BREEZE"]
+}
+def getFanSpeedStringMap(){
+	[
+		00: "OFF",
+		01: "LOW",
+		02: "MED",
+		03: "MED-HIGH",
+		04: "HIGH",
+		05: "OFF",
+		06: "BREEZE"
+		]
+	
+}
+def getFanSpeedString(speed){
 	
 	switch (value){
 	 case 0:
