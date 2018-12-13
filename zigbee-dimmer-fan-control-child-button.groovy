@@ -20,13 +20,9 @@ metadata {
 		capability "Sensor"
         capability "Switch"
         
-        command "click"
-        
-        
+        command "click"        
 	}
-
 	tiles(scale: 2) {
-    
        standardTile("button", "device.button", width: 1, height: 1, decoration: "flat") {
             state "LOW", label: "", icon: "http://gdurl.com/Kwcj", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
             state "MED", label: "", icon: "http://gdurl.com/3AJ1", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
@@ -36,34 +32,12 @@ metadata {
             state "OFF", label: "", icon: "st.thermostat.fan-off", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
             state "pushed", label: "", icon: "http://gdurl.com/DeZ8", backgroundColor: "#00A0DC"
 		} 
-        
-      /* standardTile("switch", "device.switch", width: 1, height: 1, decoration: "flat") {
-            state "LOW", label: "", icon: "http://gdurl.com/Kwcj", backgroundColor: "#FFFFFF", action: "on"
-            state "MED", label: "", icon: "http://gdurl.com/3AJ1", backgroundColor: "#FFFFFF", action: "on"
-            state "MED-HIGH", label: "", icon: "http://gdurl.com/BhdB", backgroundColor: "#FFFFFF", action: "on"
-            state "HIGH", label: "", icon: "http://gdurl.com/ULO7", backgroundColor: "#FFFFFF", action: "on"
-            state "AUTO", label: "", icon: "st.thermostat.fan-auto", backgroundColor: "#FFFFFF", action: "on"
-            state "OFF", label: "", icon: "st.thermostat.fan-off", backgroundColor: "#00A0DC", action: "on"
-            state "LOW-ON", label: "", icon: "http://gdurl.com/Kwcj", backgroundColor: "#00A0DC", action: "on"
-            state "MED-ON", label: "", icon: "http://gdurl.com/3AJ1", backgroundColor: "#00A0DC", action: "on"
-            state "MED-HIGH-ON", label: "", icon: "http://gdurl.com/BhdB", backgroundColor: "#00A0DC", action: "on"
-            state "HIGH-ON", label: "", icon: "http://gdurl.com/ULO7", backgroundColor: "#00A0DC", action: "on"
-            state "AUTO-ON", label: "", icon: "st.thermostat.fan-auto", backgroundColor: "#00A0DC", action: "on"
-            state "OFF-ON", label: "", icon: "st.thermostat.fan-off", backgroundColor: "#00A0DC", action: "on"
-           
-           
-            
-           
-        }*/
-		
-      }    
-	
+	}    
     main(["button"])        
-	details(["button", "button"])   
+	details(["button"])   
 }
 
-def click(){
-     
+def click(){     
      sendEvent(name: "button", value: "pushed")  
      on()
      refreshValue()
@@ -73,13 +47,10 @@ def off() {
 	def stringForMode = getFanModeName()[getDataValue('speed')]
     log.info "child off(): CHILD ${stringForMode} TURNED OFF"
 	sendEvent(name: "switch", value: "${stringForMode}")
-    //parent.fanOff()
 }
 
 def on() {
     parent.setFanSpeed(getDataValue("speed"))
-    
-    //parent.turnOffAnyOtherSwitches
 }
 
 def refreshValue(){
@@ -97,5 +68,4 @@ def getFanModeName(){
 		"05" : "OFF",
 		"06" : "AUTO"
 		]
-
 }
