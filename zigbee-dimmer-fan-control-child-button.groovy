@@ -15,25 +15,26 @@
  */
 metadata {
 	definition (name: "Zigbee Dimmer and Fan Controller - Child Button", namespace: "ccurtiST", author: "Christopher Curti") {
-		capability "Actuator"
+	capability "Actuator"
         capability "Button"
-		capability "Sensor"
+	capability "Sensor"
         capability "Switch"
         
         command "click"        
 	}
+	
 	tiles(scale: 2) {
-       standardTile("button", "device.button", width: 1, height: 1, decoration: "flat") {
-            state "LOW", label: "", icon: "http://gdurl.com/Kwcj", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
-            state "MED", label: "", icon: "http://gdurl.com/3AJ1", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
-            state "MED-HIGH", label: "", icon: "http://gdurl.com/BhdB", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
-            state "HIGH", label: "", icon: "http://gdurl.com/ULO7", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
-            state "AUTO", label: "", icon: "st.thermostat.fan-auto", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
-            state "OFF", label: "", icon: "st.thermostat.fan-off", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
-            state "pushed", label: "", icon: "http://gdurl.com/DeZ8", backgroundColor: "#00A0DC"
+       		standardTile("button", "device.button", width: 1, height: 1, decoration: "flat") {
+            		state "LOW", label: "", icon: "http://gdurl.com/Kwcj", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
+            		state "MED", label: "", icon: "http://gdurl.com/3AJ1", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
+            		state "MED-HIGH", label: "", icon: "http://gdurl.com/BhdB", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
+            		state "HIGH", label: "", icon: "http://gdurl.com/ULO7", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
+            		state "AUTO", label: "", icon: "st.thermostat.fan-auto", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
+            		state "OFF", label: "", icon: "st.thermostat.fan-off", backgroundColor: "#FFFFFF", action: "click", nextState: "pushed"
+            		state "pushed", label: "", icon: "http://gdurl.com/DeZ8", backgroundColor: "#00A0DC"
 		} 
 	}    
-    main(["button"])        
+    	main(["button"])        
 	details(["button"])   
 }
 
