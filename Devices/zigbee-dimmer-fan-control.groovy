@@ -89,7 +89,7 @@ def parse(String description) {
                     if (map.value != NULL){
 			    if ((map.value != "00")){setLastOnSpeed(map.value)}
 			    sendEvent(name: "fanSpeed", value: map.value, displayed: true, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
-			    updateFanModeSwitches(map.value)
+			    updateChildSwitches(map.value)
                     	}
 					log.debug "parse returned ${map}"
 				}
