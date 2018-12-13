@@ -46,26 +46,26 @@ metadata {
 			tileAttribute ("device.level", key: "SLIDER_CONTROL") {
 				attributeState "level", action:"switch level.setLevel"
 			}
-            tileAttribute ("fanSpeed", key: "SECONDARY_CONTROL") {
+            	tileAttribute ("fanSpeed", key: "SECONDARY_CONTROL") {
 		    	attributeState "00", label:'', action:"fanOn", icon:"http://gdurl.com/6vQm" 
-                attributeState "05", label:'', action:"fanOn", icon:"http://gdurl.com/6vQm" 
-                attributeState "01", label:'', action:"fanOff", icon:"http://gdurl.com/hFV0"
-                attributeState "02", label:'', action:"fanOff", icon:"http://gdurl.com/d9p4"  
-                attributeState "03", label:'', action:"fanOff", icon:"http://gdurl.com/L_sw"
-                attributeState "04", label:'', action:"fanOff", icon:"http://gdurl.com/kO65"
-                attributeState "06", label:'', action:"fanOff", icon:"http://gdurl.com/sN0r"
+               		attributeState "05", label:'', action:"fanOn", icon:"http://gdurl.com/6vQm" 
+                	attributeState "01", label:'', action:"fanOff", icon:"http://gdurl.com/hFV0"
+                	attributeState "02", label:'', action:"fanOff", icon:"http://gdurl.com/d9p4"  
+                	attributeState "03", label:'', action:"fanOff", icon:"http://gdurl.com/L_sw"
+                	attributeState "04", label:'', action:"fanOff", icon:"http://gdurl.com/kO65"
+                	attributeState "06", label:'', action:"fanOff", icon:"http://gdurl.com/sN0r"
 			}
 		}
 		standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 		}
         
-        childDeviceTile("fanButton00", "fanButton00", height: 1, width: 1)
-        childDeviceTile("fanButton01", "fanButton01", height: 1, width: 1)
-    	childDeviceTile("fanButton02", "fanButton02", height: 1, width: 1)
-    	childDeviceTile("fanButton03", "fanButton03", height: 1, width: 1)
-    	childDeviceTile("fanButton04", "fanButton04", height: 1, width: 1)
-    	childDeviceTile("fanButton06", "fanButton06", height: 1, width: 1)
+        	childDeviceTile("fanButton00", "fanButton00", height: 1, width: 1)
+        	childDeviceTile("fanButton01", "fanButton01", height: 1, width: 1)
+    		childDeviceTile("fanButton02", "fanButton02", height: 1, width: 1)
+    		childDeviceTile("fanButton03", "fanButton03", height: 1, width: 1)
+    		childDeviceTile("fanButton04", "fanButton04", height: 1, width: 1)
+    		childDeviceTile("fanButton06", "fanButton06", height: 1, width: 1)
     	
 		main(["switch"])
 		details(["switch", "fanButton00", "fanButton01", "fanButton02", "fanButton03", "fanButton04", "fanButton06", "refresh"])
@@ -73,9 +73,9 @@ metadata {
 }
 
 def parse(String description) {
-   def event = zigbee.getEvent(description) 
+	def event = zigbee.getEvent(description) 
 		if (event) {
-        log.info "Light Event: ${event}"
+        		log.info "Light Event: ${event}"
 			sendEvent(event)
 	} else {
 		def map = [:]
@@ -87,10 +87,10 @@ def parse(String description) {
 					map.value = descMap.value
 					map.descriptionText = "Fan speed is ${map.value}"
                     if (map.value != NULL){
-                    	if ((map.value != "00")){setLastOnSpeed(map.value)}
-                    sendEvent(name: "fanSpeed", value: map.value, displayed: true, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
-                    updateFanModeSwitches(map.value)
-                    }
+			    if ((map.value != "00")){setLastOnSpeed(map.value)}
+			    sendEvent(name: "fanSpeed", value: map.value, displayed: true, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
+			    updateFanModeSwitches(map.value)
+                    	}
 					log.debug "parse returned ${map}"
 				}
 			}
@@ -158,7 +158,6 @@ def configure() {
 }
 
 def updateChildLabel() {
-	log.info "UPDATE LABEL"
 	for(i in 0..6) {   		
     	def childDevice = getChildDevices()?.find {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
@@ -187,14 +186,14 @@ def createFanChildren() {
 
 def deleteChildren() {	
 	def children = getChildDevices()        	
-    children.each {child->
+    	children.each {child->
   		deleteChildDevice(child.deviceNetworkId)
     }	
     log.info "Deleting children"                  
 }
 
 def updateChildSwitches(fan) {
-    def fanID = zigbee.convertHexToInt(fan)
+	def fanID = zigbee.convertHexToInt(fan)
 	def children = getChildDevices()
    	children.each {child->
     	log.debug "child.currentState(switch): ${child.currentValue("switch")}"
