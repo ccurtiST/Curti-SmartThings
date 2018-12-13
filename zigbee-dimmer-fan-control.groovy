@@ -21,16 +21,16 @@ metadata {
 		capability "Switch Level"
 		capability "Health Check"
 		capability "Light"
-        capability "Fan Speed"
+        	capability "Fan Speed"
         
-        command "fanOn"
-        command "fanOff"
-        command "lightOn"
-        command "lightOff"
-        command "setLevelBrightness"
+        	command "fanOn"
+        	command "fanOff"
+        	command "lightOn"
+        	command "lightOff"
+        	command "setLevelBrightness"
         
-        attribute "fanSpeed", "number"
-        attribute "storedFanSpeed", "number"
+        	attribute "fanSpeed", "number"
+        	attribute "storedFanSpeed", "number"
 
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HBUniversalCFRemote"
 	}
