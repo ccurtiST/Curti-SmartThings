@@ -114,7 +114,7 @@ def off(){
 }
 
 def fanOn() {
-	setFanSpeed(device.currentValue(storedFanSpeed))	
+	setFanSpeed(device.currentValue("storedFanSpeed"))	
 }
 
 def fanOff() {
