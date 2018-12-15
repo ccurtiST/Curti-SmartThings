@@ -150,8 +150,8 @@ def refresh() {
 }
 
 def installed() {
-	createFanChildren()
-	setLastOnSpeed(1) //to make sure value initially saved
+	initialize()
+	 //to make sure value initially saved
 }
 
 def updated() {
@@ -218,14 +218,13 @@ def updateChildSwitches(fan) {
 def initialize() {	
 	log.info "Initializing"     
        	if(recreateChildren) {        	
-            deleteChildren()            
+		deleteChildren()            
     		device.updateSetting("recreateChildren", false)
-            runIn(2, "createFanChildren")
-            //initialize()
-			//createFanChildren()
-            
-    	}
-        response(refresh() + configure())
+            	runIn(2, "createFanChildren")
+         }
+	else{
+		createFanChildren()
+		response(refresh() + configure())
 }
 
 def getFanModeName(){
