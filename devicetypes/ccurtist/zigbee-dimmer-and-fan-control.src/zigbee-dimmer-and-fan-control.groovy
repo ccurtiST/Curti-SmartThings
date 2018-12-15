@@ -225,6 +225,7 @@ def initialize() {
 	else{
 		createFanChildren()
 		response(refresh() + configure())
+	}
 }
 
 def getFanModeName(){
@@ -237,4 +238,5 @@ def getFanModeName(){
 		"05" : "OFF",
 		"06" : "AUTO"
 		]
+
 }
