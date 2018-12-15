@@ -1,5 +1,5 @@
 /**
- *	Copyright 2015 SmartThings
+ *	
  *
  *	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *	in compliance with the License. You may obtain a copy of the License at:
@@ -32,9 +32,15 @@ metadata {
         	attribute "fanSpeed", "number"
         	attribute "storedFanSpeed", "number"
 
-		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HBUniversalCFRemote"
+		//fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HBUniversalCFRemote"
 	}
-
+	preferences {
+    	page(name: "remakeChildren", title: "This does not display on DTH preference page")
+            section("section") {              
+            	input(name: "recreateChildren", type: "bool", title: "Delete & Recreate all child devices?\n\nTypically used after modifying the parent device or changing to a new DTH. " +
+                "above to give all child devices the new name.\n\nPLEASE NOTE: You will have to redo any SmartApps using the Child Deevice after running this")                      
+       }
+    }
 	tiles(scale: 2) {
 		multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true){
 			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
@@ -149,7 +155,8 @@ def installed() {
 }
 
 def updated() {
-	updateChildLabel()
+	if(state.oldLabel != device.label) {updateChildLabel()}
+		initialize()    
 }
 
 def configure() {
@@ -167,6 +174,7 @@ def updateChildLabel() {
 }
 
 def createFanChildren() {
+	log.debug "create fan children"
 	state.oldLabel = device.label
     for (i in 0..6) {
 		def childDevice = getChildDevices()?.find {
@@ -207,6 +215,18 @@ def updateChildSwitches(fan) {
    	}
 }
 
+def initialize() {	
+	log.info "Initializing"     
+       	if(recreateChildren) {        	
+            deleteChildren()            
+    		device.updateSetting("recreateChildren", false)
+            runIn(2, "createFanChildren")
+            //initialize()
+			//createFanChildren()
+            
+    	}
+        response(refresh() + configure())
+}
 
 def getFanModeName(){
 	[
