@@ -174,7 +174,7 @@ def createFanChildren() {
     		}
     
     	if (!childDevice && i != 5){
-    			childDevice = addChildDevice("Zigbee Dimmer and Fan Controller - Child Button", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true,
+    			childDevice = addChildDevice("Zigbee Dimmer and Fan Control Child Button", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true,
             	label: "${device.displayName} Mode ${getFanModeName()["0${i}"]}", isComponent: true, componentName: "fanButton0${i}",
             	componentLabel: "${getFanModeName()[i]}", "data":["speed": "0${i}"]])        	
            		log.info "Creating child fan mode ${childDevice}"
