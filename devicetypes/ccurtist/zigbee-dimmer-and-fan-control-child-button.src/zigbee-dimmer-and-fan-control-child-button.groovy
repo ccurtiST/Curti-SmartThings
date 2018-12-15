@@ -14,7 +14,7 @@
  *
  */
 metadata {
-	definition (name: "Zigbee Dimmer and Fan Control - Child Button", namespace: "ccurtist", author: "Christopher Curti") {
+	definition (name: "Zigbee Dimmer and Fan Control Child Button", namespace: "ccurtist", author: "Christopher Curti") {
 	capability "Actuator"
         capability "Button"
 	capability "Sensor"
