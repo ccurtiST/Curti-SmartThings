@@ -21,14 +21,14 @@ metadata {
 		capability "Switch Level"
 		capability "Health Check"
 		capability "Light"
-        	capability "Fan Speed"
+        capability "Fan Speed"
         
-        	command "fanOn"
-        	command "fanOff"
+        command "fanOn"
+        command "fanOff"
         	
         
-        	attribute "fanSpeed", "number"
-        	attribute "storedFanSpeed", "number"
+        attribute "fanSpeed", "number"
+        attribute "storedFanSpeed", "number"
 
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HBUniversalCFRemote"
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
@@ -100,11 +100,12 @@ def parse(String description) {
 				}
 			}
 			else if (descMap.clusterInt == 0x0006 && descMap.commandInt == 0x07){
-				log.debug "ON/OFF REPORTING CONFIG RESPONSE: " + cluster
-				sendEvent(name: "checkInterval", value: 60 * 12, displayed: false, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])			       
-			}
-			else {
-				log.warn "ON/OFF REPORTING CONFIG FAILED- error code:${cluster.data[0]}"
+            	if (descMap.data[0] == "00"){
+					log.debug "ON/OFF REPORTING CONFIG RESPONSE: " + cluster
+					sendEvent(name: "checkInterval", value: 60 * 12, displayed: false, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
+                } else {
+					log.warn "ON/OFF REPORTING CONFIG FAILED- error code:${cluster.data[0]}"
+                }
 			}
 		}
 	}
