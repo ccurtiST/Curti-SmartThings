@@ -31,6 +31,7 @@ metadata {
         	attribute "storedFanSpeed", "number"
 
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HBUniversalCFRemote"
+		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
 	}
 	preferences {
     	page(name: "remakeChildren", title: "This does not display on DTH preference page")
@@ -202,7 +203,7 @@ def updateChildSwitches(fan) {
 	def fanID = zigbee.convertHexToInt(fan)
 	def children = getChildDevices()
    	children.each {child->
-    	log.debug "child.currentState(switch): ${child.currentValue("switch")}"
+    	
        	def childSpeed = child.getDataValue('speed')
         if("${childSpeed}" == "0${fanID}") {
            	child.sendEvent(name:"switch",value:"on")
