@@ -25,9 +25,7 @@ metadata {
         
         	command "fanOn"
         	command "fanOff"
-        	command "lightOn"
-        	command "lightOff"
-        	command "setLevelBrightness"
+        	
         
         	attribute "fanSpeed", "number"
         	attribute "storedFanSpeed", "number"
